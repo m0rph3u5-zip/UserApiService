@@ -34,8 +34,16 @@ namespace ApiService.Manager
         {
             //user.Id = Guid.NewGuid().ToString();
             //user.DefaultAddress.Id = Guid.NewGuid().ToString();
-            UserCollection.InsertOne(user);
-            return user;
+            try
+            {
+                UserCollection.InsertOne(user);
+                return user;
+            }
+            catch (Exception Ex)
+            {
+
+                throw Ex;
+            }
         }
 
         public User Update(User user)

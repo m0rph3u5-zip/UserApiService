@@ -6,10 +6,7 @@ namespace ApiService.Core
     public class User
     {
         [BsonId]
-        public string Id {
-            get => Id;
-            set => Id = Id == null ? Guid.NewGuid().ToString() : null;
-        }
+        public string Id { get; set; }        
         public string Surname { get; set; }
         public string Name { get; set; }
         public Address DefaultAddress { get; set; }
