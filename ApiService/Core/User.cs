@@ -14,14 +14,11 @@ namespace ApiService.Core
         public string Nome { get; set; }
         public char Sesso { get; set; }
         public string CodiceFiscale { get; set; }
-        public List<Address> Addresses { get; set; }
+        public Address Address { get; set; }
         public InfoUser InfoUser { get; set; }
         public string Nominativo
         {
-            get
-            {
-                return this.Nome + this.Cognome;
-            }
+            get => Nome +" "+ Cognome;
         }
     }
 
@@ -33,6 +30,7 @@ namespace ApiService.Core
         public string City { get; set; }
         public string Tel { get; set; }
         public string Pv { get; set; }
+        public string Country { get; set; }
         public string ZipCode { get; set; }
     }
 
@@ -43,4 +41,11 @@ namespace ApiService.Core
         public string Pv { get; set; }
         public string ZipCode { get; set; }
     }
+
+    public class Addresses
+    {
+        public string UserId { get; set; }
+        public List<Address> UserAddress { get; set; }
+    }
+
 }

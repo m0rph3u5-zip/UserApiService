@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using ApiService.Core;
+﻿using ApiService.Core;
 using ApiService.Manager;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 
 namespace ApiService.Controllers
 {
-
     [Route("api/[controller]")]
     public class UsersController : Controller
     {
-        private readonly UserManager _userManager;
+        private readonly IUserManager _userManager;
 
-        public UsersController(UserManager userManage)
+        public UsersController(IUserManager userManage)
         {
             _userManager = userManage;
         }
@@ -24,7 +23,10 @@ namespace ApiService.Controllers
         {
             try
             {
-                return Ok(_userManager.GetAll());
+                List<User> resultUser = _userManager.GetAll();
+                if (resultUser.Count <= 0)
+                    return NotFound();
+                return Ok(resultUser);
             }
             catch (Exception Ex)
             {
@@ -34,23 +36,21 @@ namespace ApiService.Controllers
 
         // GET api/values/5
         [HttpGet]
-        [Route("get/{id:length(24)}")]
+        [Route("get/{id}")]
         public ActionResult<User> Get(string id)
         {
             try
             {
                 if (id == null)
                 {
-                    User user = new User();
-                    user = _userManager.GetById(id);
+                    User user = _userManager.GetById(id);
                     if (user == null)
-                        return StatusCode(404, "Nessun utete trovato!");
-                    else
-                        return Ok(user);
+                        return NotFound();
+                    return Ok(user);
                 }
                 else
                 {
-                    return StatusCode(404, "Nessun utete trovato!");
+                    return BadRequest();
                 }
             }
             catch (Exception Ex)
@@ -61,25 +61,56 @@ namespace ApiService.Controllers
 
         // POST api/values
         [HttpPost]
-        public ActionResult Insert([FromBody] User user)
+        [Route("insert")]
+        public ActionResult<User> Insert([FromBody] User user)
         {
-            if (user == null)
-                return StatusCode(404, "Nessun ");
-            return Ok(_userManager.Insert(user));
+            try
+            {
+                if (user == null)
+                    return BadRequest();
+                return Ok(_userManager.Insert(user));
+            }
+            catch (Exception Ex)
+            {
+                return StatusCode(500, Ex);
+            }
         }
 
         // PUT api/values/5
         [HttpPost]
-        public void Update(string id, [FromBody] User user)
+        [Route("update")]
+        public ActionResult Update(string id, [FromBody] User user)
         {
-
+            try
+            {
+                if (user == null)
+                    return BadRequest();
+                return Ok(_userManager.Update(user));
+            }
+            catch (Exception Ex)
+            {
+                return StatusCode(500, Ex);
+            }
         }
 
         // DELETE api/values/5
         [HttpDelete]
-        public void Delete(string id)
+        [Route("delete")]
+        public ActionResult Delete(string id)
         {
-
+            try
+            {
+                if (String.IsNullOrEmpty(id))
+                    return BadRequest();
+                if (_userManager.GetById(id) != null)
+                    return NotFound();
+                _userManager.Delete(id);
+                return NoContent();
+            }
+            catch (Exception Ex)
+            {
+                return StatusCode(500, Ex);
+            }
         }
     }
 }

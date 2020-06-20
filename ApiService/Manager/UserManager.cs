@@ -1,51 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using ApiService.Core;
-using MongoDB.Bson;
+﻿using ApiService.Core;
 using MongoDB.Driver;
+using System.Collections.Generic;
 
 namespace ApiService.Manager
 {
     public class UserManager : IUserManager
     {
+        private readonly IMongoCollection<User> UserCollection;
 
-        private readonly IMongoCollection<User> _userCollection;
-
-        public UserManager(IMongoCollection<User> userCollection)
+        // remote mongodb path [Atlas]
+        // mongodb+srv://admin:VyjVOxXG8zlE3OCT@cluster0-cpssc.mongodb.net/UserDB?retryWrites=true&w=majority
+        public UserManager()
         {
-            _userCollection = userCollection;
-
             var client = new MongoClient(
-                "mongodb+srv://admin:VyjVOxXG8zlE3OCT@cluster0-cpssc.mongodb.net/UserDB?retryWrites=true&w=majority"
+                "mongodb://127.0.0.1:27017"
             );
-            var database = client.GetDatabase("UserDB");
-            _userCollection = database.GetCollection<User>("UserDB");
-        }
-
-        public void Delete(string userId)
-        {
-            _userCollection.DeleteOne(u => u.Id == userId);
+            IMongoDatabase database = client.GetDatabase("UserDB");
+            UserCollection = database.GetCollection<User>("user");
         }
 
         public List<User> GetAll()
         {
-            return _userCollection.Find(u => true).ToList();
+            return UserCollection.Find(u => true).ToList();
         }
 
         public User GetById(string id)
         {
-            return _userCollection.Find(u => u.Id == id).FirstOrDefault();
+            return UserCollection.Find(u => u.Id == id).FirstOrDefault();
         }
 
         public User Insert(User user)
         {
-            _userCollection.InsertOne(user);
+            UserCollection.InsertOne(user);
             return user;
         }
 
-        public void Update(User user)
+        public User Update(User user)
         {
-            _userCollection.ReplaceOne(u => u.Id == user.Id, user);
+            UserCollection.ReplaceOne(u => u.Id == user.Id, user);
+            return user;
+        }
+        public void Delete(string userId)
+        {
+            UserCollection.DeleteOne(u => u.Id == userId);
         }
     }
 }

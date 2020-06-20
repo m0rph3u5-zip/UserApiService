@@ -1,8 +1,5 @@
-﻿using System;
+﻿using ApiService.Core;
 using System.Collections.Generic;
-using ApiService.Core;
-using ApiService.Request;
-using MongoDB.Bson;
 
 namespace ApiService.Manager
 {
@@ -11,7 +8,7 @@ namespace ApiService.Manager
         User GetById(string id);
         List<User> GetAll();
         User Insert(User user);
-        void Update(User user);
+        User Update(User user);
         void Delete(string id);
     }
 }

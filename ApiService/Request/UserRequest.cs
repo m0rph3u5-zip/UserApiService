@@ -1,5 +1,4 @@
-﻿using System;
-namespace ApiService.Request
+﻿namespace ApiService.Request
 {
     public class UserRequest
     {

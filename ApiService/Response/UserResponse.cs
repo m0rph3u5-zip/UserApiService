@@ -1,8 +1,7 @@
-﻿using System;
-namespace ApiService.Response
+﻿namespace ApiService.Response
 {
     public class UserResponse
     {
-        
+
     }
 }
