@@ -1,51 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using System;
 
 namespace ApiService.Core
 {
     public class User
     {
         [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
-        public string Cognome { get; set; }
-        public string Nome { get; set; }
-        public char Sesso { get; set; }
-        public string CodiceFiscale { get; set; }
-        public Address Address { get; set; }
-        public InfoUser InfoUser { get; set; }
-        public string Nominativo
-        {
-            get => Nome +" "+ Cognome;
-        }
-    }
-
-    public class Address
-    {
+        public string Surname { get; set; }
         public string Name { get; set; }
-        public string Address_1 { get; set; }
-        public string Address_2 { get; set; }
-        public string City { get; set; }
-        public string Tel { get; set; }
-        public string Pv { get; set; }
-        public string Country { get; set; }
-        public string ZipCode { get; set; }
+        public Address DefaultAddress { get; set; }
+        public InfoUser UserInfo { get; set; }
+        public string Fullmane
+        {
+            get => Surname + " " + Name;
+        }
     }
 
     public class InfoUser
     {
-        public DateTime Date { get; set; }
+        public string Gender { get; set; }
+        public string FiscalCode { get; set; }
+        public DateTime DateBirth { get; set; }
+        public string Country { get; set; }
         public string City { get; set; }
-        public string Pv { get; set; }
+        public string Province { get; set; }
         public string ZipCode { get; set; }
-    }
-
-    public class Addresses
-    {
-        public string UserId { get; set; }
-        public List<Address> UserAddress { get; set; }
     }
 
 }

@@ -1,5 +1,6 @@
 ﻿using ApiService.Core;
 using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 
 namespace ApiService.Manager
@@ -31,6 +32,8 @@ namespace ApiService.Manager
 
         public User Insert(User user)
         {
+            user.Id = Guid.NewGuid().ToString();
+            user.DefaultAddress.Id = Guid.NewGuid().ToString();
             UserCollection.InsertOne(user);
             return user;
         }
