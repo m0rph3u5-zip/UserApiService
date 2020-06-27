@@ -32,11 +32,12 @@ namespace ApiService.Manager
 
         public User Insert(User user)
         {
-            //user.Id = Guid.NewGuid().ToString();
-            //user.DefaultAddress.Id = Guid.NewGuid().ToString();
+            
             try
             {
-                UserCollection.InsertOne(user);
+                User userAdded = new User();
+                userAdded = user;
+                UserCollection.InsertOne(userAdded);
                 return user;
             }
             catch (Exception Ex)

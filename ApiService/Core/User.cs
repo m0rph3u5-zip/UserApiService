@@ -7,25 +7,17 @@ namespace ApiService.Core
     {
         [BsonId]
         public string Id { get; set; }        
-        public string Surname { get; set; }
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public Address DefaultAddress { get; set; }
-        public InfoUser UserInfo { get; set; }
-        public string Fullmane
+        public Addons Information { get; set; }
+        public string Fullmane => LastName + " " + FirstName;
+        public User()
         {
-            get => Surname + " " + Name;
+            if (string.IsNullOrEmpty(Id))
+            {
+                Id = Guid.NewGuid().ToString();
+            }
         }
     }
-
-    public class InfoUser
-    {
-        public string Gender { get; set; }
-        public string FiscalCode { get; set; }
-        public DateTime DateBirth { get; set; }
-        public string Country { get; set; }
-        public string City { get; set; }
-        public string Province { get; set; }
-        public string ZipCode { get; set; }
-    }
-
 }

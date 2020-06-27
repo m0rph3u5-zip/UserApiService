@@ -1,6 +1,4 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-using System.Collections.Generic;
+﻿using MongoDB.Bson.Serialization.Attributes;
 
 namespace ApiService.Core
 {
@@ -16,9 +14,9 @@ namespace ApiService.Core
         public string Province { get; set; }
         public string Country { get; set; }
         public string ZipCode { get; set; }
-        
+
     }
-    public class Addresses : Address
+    public class Addresses: Address
     {
         [BsonId]
         public string UserId { get; set; }
